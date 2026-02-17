@@ -1,0 +1,107 @@
+name: Continuous Integration
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  execute_test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Java 17 for SDK Manager
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+          cache: maven
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '22.16'
+
+      - name: Install Appium
+        run: |
+          npm install -g appium@3.2.0
+
+      - name: Install UiAutomator2
+        run: |
+          appium driver install uiautomator2@4.2.3 
+
+      - name: Start Appium Server
+        run: |
+          nohup appium > appium.log 2>&1 &
+          sleep 10
+
+      - name: Install Android SDK system image
+        run: |
+          sdkmanager --install "system-images;android-29;google_apis;x86_64"
+
+      - name: Create Device
+        run: |
+          echo no | avdmanager create avd -n "Pixel_4_API_29" -k "system-images;android-29;google_apis;x86_64" -d pixel_4
+
+      - name: Enable KVM group perms
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+
+      - name: Run Android Emulator
+        uses: reactivecircus/android-emulator-runner@v2
+        env:
+          JIRA_API_CREDENTIALS: ${{ secrets.JIRA_API_CREDENTIALS }}
+        with:
+          api-level: 29
+          target: google_apis
+          arch: x86_64
+          profile: pixel_4
+          script: |
+            adb install ./apk/app-debug.apk
+            adb shell pm list packages | grep com.hostelworld.qacodechallenge
+            set +e
+            # Test-only path (commented) - use this if you don't want Jira tickets
+            # mvn clean test -Dapp.path="$(pwd)/apk/app-debug.apk"
+            # TEST_RESULT=$?
+            # exit $TEST_RESULT
+            # Jira combo (tests + HTML report + Jira tickets)
+            printf "%s" "$JIRA_API_CREDENTIALS" > .env
+            mvn -Pjira-report verify -Dapp.path="$(pwd)/apk/app-debug.apk"
+
+      - name: Generate Surefire HTML Report
+        if: always()
+        run: mvn -DskipTests surefire-report:report-only
+
+      - name: Upload Surefire Test Reports
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: surefire-reports
+          path: target/surefire-reports/
+
+      - name: Upload Test HTML Report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: test-html-report
+          path: target/site/
+
+      - name: Upload Appium Logs
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: appium-logs
+          path: appium.log
+
+      - name: Upload Failure Screenshots
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: test-screenshots
+          path: target/screenshots/
