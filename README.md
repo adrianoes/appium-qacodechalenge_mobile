@@ -23,6 +23,7 @@ UI testing in QA Code Challenge apk from Hostelworld using Appium and Java. This
 | Java client for Appium maven dependency | 10.0.0        | -                                                               |
 | JUnit 4 Maven Repository                | 4.13.2        | -                                                               |
 | Java Faker Maven Repository             | 1.0.2         | -                                                               |
+| JSON in Java Maven Repository           | 20251224      | -                                                               |
 
 # Installation:
 
@@ -77,7 +78,8 @@ UI testing in QA Code Challenge apk from Hostelworld using Appium and Java. This
 - See [Selenium Java](https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-java/4.40.0), copy the maven dependency code. Open a dependencies tag in the pom.xml file right below the properties tag and paste the maven dependency copied code there.
 - See [Java client for Appium](https://mvnrepository.com/artifact/io.appium/java-client/10.0.0), copy the maven dependency code and paste it in the dependency tag.
 - See [JUnit 4](https://mvnrepository.com/artifact/junit/junit/4.13.2), copy the maven dependency code and paste it in the dependency tag.
-- See [Java Faker](https://mvnrepository.com/artifact/com.github.javafaker/javafaker/1.0.2), copy the maven dependency code and paste it in the dependency tag. Hit :point_right: **Sync maven changes**. Your dependency tag in the pom.xml file, now, should be something like:
+- See [Java Faker](https://mvnrepository.com/artifact/com.github.javafaker/javafaker/1.0.2), copy the maven dependency code and paste it in the dependency tag.
+- See [JSON in Java](https://mvnrepository.com/artifact/org.json/json/20251224), copy the maven dependency code and paste it in the dependency tag. Hit :point_right: **Sync maven changes**. Your dependency tag in the pom.xml file, now, should be something like:
 
   ```
     <dependencies>
@@ -110,6 +112,14 @@ UI testing in QA Code Challenge apk from Hostelworld using Appium and Java. This
             <groupId>com.github.javafaker</groupId>
             <artifactId>javafaker</artifactId>
             <version>1.0.2</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <!-- Source: https://mvnrepository.com/artifact/org.json/json -->
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20251224</version>
             <scope>compile</scope>
         </dependency>
 
