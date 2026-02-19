@@ -1,7 +1,6 @@
 package pages;
 
 import io.appium.java_client.AppiumDriver;
-import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import support.CustomCommands;
 
@@ -28,13 +27,6 @@ public class BasePage {
      */
     public boolean isElementDisplayed(String resourceId) {
         return customCommands.isElementDisplayed(resourceId);
-    }
-
-    /**
-     * Wait for element to be visible
-     */
-    public void waitForElementVisible(String resourceId, int timeoutSeconds) {
-        customCommands.waitForElementVisible(resourceId, timeoutSeconds);
     }
 }
 

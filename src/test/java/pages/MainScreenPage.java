@@ -47,12 +47,5 @@ public class MainScreenPage extends BasePage {
     public boolean isCreateAccountButtonDisplayed() {
         return isElementDisplayed(BTN_CREATE_ACCOUNT);
     }
-
-    /**
-     * Check if Login button is displayed
-     */
-    public boolean isLoginButtonDisplayed() {
-        return isElementDisplayed(BTN_LOGIN);
-    }
 }
 

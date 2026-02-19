@@ -35,11 +35,6 @@ public class CreateAccountScreenPage extends BasePage {
     private final String PASSWORD_FIELD = "com.hostelworld.qacodechallenge:id/passwordEt";
     private final String BTN_CREATE_ACCOUNT = "com.hostelworld.qacodechallenge:id/btnCreateAccount";
 
-    // Data storage
-    private String generatedFirstName;
-    private String generatedLastName;
-    private String generatedEmail;
-    private String generatedPassword;
 
     private Faker faker;
 
@@ -48,39 +43,6 @@ public class CreateAccountScreenPage extends BasePage {
         this.faker = new Faker();
     }
 
-    /**
-     * Fill all fields with generated data (using Faker)
-     */
-    public void fillWithGeneratedData() {
-        this.generatedFirstName = faker.name().firstName();
-        this.generatedLastName = faker.name().lastName();
-        this.generatedEmail = faker.internet().emailAddress();
-        this.generatedPassword = faker.internet().password(8, 12, true, true, true);
-
-        fillFields(generatedFirstName, generatedLastName, generatedEmail, generatedPassword);
-    }
-
-    /**
-     * Fill all fields with specific data
-     */
-    public void fillWithSpecificData(String firstName, String lastName, String email, String password) {
-        this.generatedFirstName = firstName;
-        this.generatedLastName = lastName;
-        this.generatedEmail = email;
-        this.generatedPassword = password;
-
-        fillFields(firstName, lastName, email, password);
-    }
-
-    /**
-     * Fill all input fields
-     */
-    private void fillFields(String firstName, String lastName, String email, String password) {
-        customCommands.sendTextById(FIRST_NAME_FIELD, firstName);
-        customCommands.sendTextById(LAST_NAME_FIELD, lastName);
-        customCommands.sendTextById(EMAIL_FIELD, email);
-        customCommands.sendTextById(PASSWORD_FIELD, password);
-    }
 
     /**
      * Click "Create Account" button to submit the form
@@ -95,22 +57,18 @@ public class CreateAccountScreenPage extends BasePage {
      */
     public void fillFirstName(String firstName) {
         customCommands.sendTextById(FIRST_NAME_FIELD, firstName);
-        this.generatedFirstName = firstName;
     }
 
     public void fillLastName(String lastName) {
         customCommands.sendTextById(LAST_NAME_FIELD, lastName);
-        this.generatedLastName = lastName;
     }
 
     public void fillEmail(String email) {
         customCommands.sendTextById(EMAIL_FIELD, email);
-        this.generatedEmail = email;
     }
 
     public void fillPassword(String password) {
         customCommands.sendTextById(PASSWORD_FIELD, password);
-        this.generatedPassword = password;
     }
 
     /**
@@ -149,110 +107,6 @@ public class CreateAccountScreenPage extends BasePage {
 
     public boolean isPasswordFieldDisplayed() {
         return isElementDisplayed(PASSWORD_FIELD);
-    }
-
-    /**
-     * Get error messages from fields
-     */
-    public String getFirstNameErrorMessage() {
-        return getErrorText(FIRST_NAME_FIELD);
-    }
-
-    public String getLastNameErrorMessage() {
-        return getErrorText(LAST_NAME_FIELD);
-    }
-
-    public String getEmailErrorMessage() {
-        return getErrorText(EMAIL_FIELD);
-    }
-
-    public String getPasswordErrorMessage() {
-        return getErrorText(PASSWORD_FIELD);
-    }
-
-    /**
-     * Alias methods for error retrieval (used by tests)
-     */
-    public String getFirstNameError() {
-        return getErrorText(FIRST_NAME_FIELD);
-    }
-
-    public String getLastNameError() {
-        return getErrorText(LAST_NAME_FIELD);
-    }
-
-    public String getEmailError() {
-        return getErrorText(EMAIL_FIELD);
-    }
-
-    public String getPasswordError() {
-        return getErrorText(PASSWORD_FIELD);
-    }
-
-    /**
-     * Check if error is visible (not null and not empty)
-     */
-    public boolean isFirstNameErrorVisible() {
-        String error = getErrorText(FIRST_NAME_FIELD);
-        return error != null && !error.isEmpty();
-    }
-
-    public boolean isLastNameErrorVisible() {
-        String error = getErrorText(LAST_NAME_FIELD);
-        return error != null && !error.isEmpty();
-    }
-
-    public boolean isEmailErrorVisible() {
-        String error = getErrorText(EMAIL_FIELD);
-        return error != null && !error.isEmpty();
-    }
-
-    public boolean isPasswordErrorVisible() {
-        String error = getErrorText(PASSWORD_FIELD);
-        return error != null && !error.isEmpty();
-    }
-
-    /**
-     * Helper method to get error text from field
-     * Try multiple approaches to get error message
-     */
-    private String getErrorText(String fieldId) {
-        try {
-            // Try to get error attribute
-            String errorAttr = customCommands.getAttributeById(fieldId, "error");
-            if (errorAttr != null && !errorAttr.isEmpty()) {
-                return errorAttr;
-            }
-
-            // Try to get text
-            String text = customCommands.getTextById(fieldId);
-            if (text != null && !text.isEmpty()) {
-                return text;
-            }
-
-            return "";
-        } catch (Exception e) {
-            return "";
-        }
-    }
-
-    /**
-     * Get generated data for validation
-     */
-    public String getGeneratedFirstName() {
-        return generatedFirstName;
-    }
-
-    public String getGeneratedLastName() {
-        return generatedLastName;
-    }
-
-    public String getGeneratedEmail() {
-        return generatedEmail;
-    }
-
-    public String getGeneratedPassword() {
-        return generatedPassword;
     }
 }
 

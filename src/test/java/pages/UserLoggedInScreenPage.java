@@ -75,51 +75,5 @@ public class UserLoggedInScreenPage extends BasePage {
     public void clickLogout() {
         customCommands.clickById(BTN_LOGOUT);
     }
-
-    /**
-     * Check if greeting text is displayed
-     */
-    public boolean isGreetingTextDisplayed() {
-        return isElementDisplayed(GREETING_TEXT);
-    }
-
-    /**
-     * Check if first name is displayed
-     */
-    public boolean isFirstNameDisplayed() {
-        return isElementDisplayed(FIRST_NAME_TEXT);
-    }
-
-    /**
-     * Check if last name is displayed
-     */
-    public boolean isLastNameDisplayed() {
-        return isElementDisplayed(LAST_NAME_TEXT);
-    }
-
-    /**
-     * Check if email is displayed
-     */
-    public boolean isEmailDisplayed() {
-        return isElementDisplayed(EMAIL_TEXT);
-    }
-
-    /**
-     * Check if logout button is displayed
-     */
-    public boolean isLogoutButtonDisplayed() {
-        return isElementDisplayed(BTN_LOGOUT);
-    }
-
-    /**
-     * Validate that all user information is displayed correctly
-     */
-    public boolean validateAllInformationDisplayed() {
-        return isGreetingTextDisplayed() &&
-               isFirstNameDisplayed() &&
-               isLastNameDisplayed() &&
-               isEmailDisplayed() &&
-               isLogoutButtonDisplayed();
-    }
 }
 

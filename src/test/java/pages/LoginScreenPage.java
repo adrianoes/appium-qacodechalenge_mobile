@@ -44,13 +44,6 @@ public class LoginScreenPage extends BasePage {
         customCommands.sendTextById(PASSWORD_FIELD, password);
     }
 
-    /**
-     * Fill both email and password fields
-     */
-    public void fillLoginCredentials(String email, String password) {
-        fillEmail(email);
-        fillPassword(password);
-    }
 
     /**
      * Click "Login" button to submit login form
